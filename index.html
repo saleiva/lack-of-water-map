@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Using CartoDB with Leaflet</title>
+  <link rel="shortcut icon" href="http://cartodb.com/favicon/favicon_32x32.ico" />
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
+  <link  href="css/cartodb.css" rel="stylesheet" type="text/css">
+  <link  href="css/style.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+  <script type="text/javascript" src="js/wax.leaflet.min.js"></script>
+  <script type="text/javascript" src="js/cartodb-leaflet.js"></script>
+
+  <script type="text/javascript">
+  	
+  	var cartodb_leaflet1 ,cartodb_leaflet2;
+
+	  function initialize() {
+		var map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 6);
+	    
+	    cartodb_leaflet1 = new L.CartoDBLayer({
+	      map_canvas: 'map_canvas',
+	      map: map,
+	      user_name:"viz2",
+	      table_name: 'estado_embalses_provincias',
+	      query: "SELECT *FROM {{table_name}}",
+	      auto_bound: false,
+	      debug: false
+	    });
+
+	    cartodb_leaflet2 = new L.CartoDBLayer({
+	      map_canvas: 'map_canvas',
+	      map: map,
+	      user_name:"viz2",
+	      table_name: 'embalses_saleiva_dots',
+	      query: "SELECT *FROM {{table_name}}",
+	      auto_bound: false,
+	      debug: false
+	    });
+
+	  }
+  </script>
+</head>
+<body onload="initialize()">
+	<div class="wrapper">
+	  	<div id="map_canvas"></div>
+	  	<a class="cartodb_logo" href="http://www.cartodb.com" target="_blank">CartoDB</a>
+  	<div class="wrapper">
+</body>
+</html>

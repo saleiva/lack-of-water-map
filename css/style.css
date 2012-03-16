@@ -1,0 +1,11 @@
+body{}
+
+div.wrapper{
+	margin: 60px auto 0 auto;
+	width: 800px;
+	height: 450px;
+}
+
+div#map_canvas{
+	border: 4px solid #eee;
+}
