@@ -110,7 +110,39 @@
    polygon-fill:#FFFFCC}
 
 
+////
+#estado_embalses_provincias{
+   line-color:#FFFFFF;
+   line-width:.6;
+   line-opacity:1;
+   polygon-opacity:.7;
+   }
+#estado_embalses_provincias[water_per_meter<=2.66756881644145e-7]{
+   polygon-fill:#0C2C84}
+#estado_embalses_provincias[water_per_meter<=1.25969381171406e-7]{
+   polygon-fill:#225EA8}
+#estado_embalses_provincias[water_per_meter<=7.54906646920061e-8]{
+   polygon-fill:#1D91C0}
+#estado_embalses_provincias[water_per_meter<=5.38172708993796e-8]{
+   polygon-fill:#41B6C4}
+#estado_embalses_provincias[water_per_meter<=3.56702048485334e-8]{
+   polygon-fill:#7FCDBB}
+#estado_embalses_provincias[water_per_meter<=2.29569269490801e-8]{
+   polygon-fill:#C7E9B4}
+#estado_embalses_provincias[water_per_meter<=9.69814167193683e-9]{
+   polygon-fill:#FFFFCC}
 
+#estado_embalses_provincias[zoom>6]{
+  text-face-name: "DejaVu Sans Book";
+  text-fill:#000;
+  text-size:10;
+  text-halo-fill:rgba(255,255,255,1);
+  text-halo-radius:1;
+  text-line-spacing:1;
+  text-wrap-width:20;
+  text-allow-overlap:true;
+  text-name:"[provincia]";
+}
 
  //////////////////////////////////////////////////
 
