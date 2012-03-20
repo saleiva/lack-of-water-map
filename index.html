@@ -16,7 +16,6 @@
 
   <script type="text/javascript">
     
-    var cartodb_leaflet1 ,cartodb_leaflet2;
 
    /**
     * this function precache all the polygons to render them on hover
@@ -44,65 +43,72 @@
         });
         
     }
-    function initialize() {
 
-      var polygons = null;
 
-      function init_map() {
-        var current_polygon = null; //contains the current polygon being shown
+    /**
+     * creates the map
+     */
+    function init_map(polygons) {
+      var cartodb_leaflet1 ,cartodb_leaflet2;
+      var current_polygon = null; //contains the current polygon being shown
 
-        var map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 6);
+      var map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 6);
 
-        // options to control events on geometries
-        var waxOptions = {
-            callbacks: {
-              out: function(){
-                  $('body').css({cursor:'default'});
-                  if(current_polygon) {
-                    map.removeLayer(current_polygon);
-                    current_polygon = null;
-                  }
-              },
-              over: function(feature, div, opt3, evt){
-                  $('body').css({cursor:'pointer'});
-                  console.log("in" + feature);
-                  current_polygon = polygons[feature];
-                  map.addLayer(current_polygon);
-              },
-              click: function(feature, div, op3, evt) {
-                  console.log("clicked on " + feature);
-              }
+      // options to control events on geometries
+      var waxOptions = {
+          callbacks: {
+            out: function(){
+                $('body').css({cursor:'default'});
+                if(current_polygon) {
+                  map.removeLayer(current_polygon);
+                  current_polygon = null;
+                }
             },
-        };
-        
-        cartodb_leaflet1 = new L.CartoDBLayer({
-          map_canvas: 'map_canvas',
-          map: map,
-          user_name:"viz2",
-          table_name: 'estado_embalses_provincias',
-          query: "SELECT *FROM {{table_name}}",
-          auto_bound: false,
-          debug: false,
-          waxOptions: waxOptions
-        });
-
-        cartodb_leaflet2 = new L.CartoDBLayer({
-          map_canvas: 'map_canvas',
-          map: map,
-          user_name:"viz2",
-          table_name: 'embalses_saleiva_dots',
-          query: "SELECT *FROM {{table_name}}",
-          auto_bound: false,
-          debug: false
-        });
-      }
-
-      create_polygons(function(p) {
-          polygons = p;
-          init_map();
+            over: function(feature, div, opt3, evt){
+                $('body').css({cursor:'pointer'});
+                console.log("in" + feature);
+                current_polygon = polygons[feature];
+                map.addLayer(current_polygon);
+            },
+            click: function(feature, div, op3, evt) {
+                console.log("clicked on " + feature);
+            }
+          },
+      };
+      
+      cartodb_leaflet1 = new L.CartoDBLayer({
+        map_canvas: 'map_canvas',
+        map: map,
+        user_name:"viz2",
+        table_name: 'estado_embalses_provincias',
+        query: "SELECT *FROM {{table_name}}",
+        auto_bound: false,
+        debug: false,
+        waxOptions: waxOptions
       });
 
+      cartodb_leaflet2 = new L.CartoDBLayer({
+        map_canvas: 'map_canvas',
+        map: map,
+        user_name:"viz2",
+        table_name: 'embalses_saleiva_dots',
+        query: "SELECT *FROM {{table_name}}",
+        auto_bound: false,
+        debug: false
+      });
     }
+
+    
+    /**
+     * init the app
+     */
+    function initialize() {
+      // ask for the data first, when it is ready the map can be initializated
+      create_polygons(function(vector_polygons) {
+          init_map(vector_polygons);
+      });
+    }
+
   </script>
 </head>
 <body onload="initialize()">
