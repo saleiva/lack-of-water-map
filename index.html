@@ -13,9 +13,9 @@
   <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
   <script type="text/javascript" src="js/wax.leaflet.min.js"></script>
   <script type="text/javascript" src="js/cartodb-leaflet.js"></script>
-
   <script type="text/javascript">
-    
+
+    var map;
 
    /**
     * this function precache all the polygons to render them on hover
@@ -24,19 +24,25 @@
         var polygons =  {};
         // data a little bit simplified
         // if you change 0.01 to 0.1 the geometry will be more simple 
-        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
+        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,embal_percen,capacidad,embalsada,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
         $.getJSON(polygons_url, function(data) {
             var geojson = new L.GeoJSON();
             var features = data.features;
             for (var i = 0, len = features.length; i < len; ++i) {
+              var pol = new Object();
               var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
               // polygon options
               // see available http://leaflet.cloudmade.com/reference.html#path
               geo.setStyle({
-                fillColor: '#FFF',
-                fillOpacity: 1.0
+                weight: 4,
+                color: '#FFFFFF',
+                opacity: 1,
+                fillColor: '#FFFFFF',
+                fillOpacity: 0.1
               });
-              polygons[features[i].properties.cartodb_id] = geo;
+              pol.geo = geo;
+              pol.prop = features[i].properties;
+              polygons[features[i].properties.cartodb_id] = pol;
 
             }
             ready(polygons);
@@ -52,7 +58,9 @@
       var cartodb_leaflet1 ,cartodb_leaflet2;
       var current_polygon = null; //contains the current polygon being shown
 
-      var map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 6);
+      map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 6);
+      map.minZoom = 6;
+      map.maxZoom = 7;
 
       // options to control events on geometries
       var waxOptions = {
@@ -66,12 +74,14 @@
             },
             over: function(feature, div, opt3, evt){
                 $('body').css({cursor:'pointer'});
-                console.log("in" + feature);
-                current_polygon = polygons[feature];
+                current_polygon = polygons[feature].geo;
                 map.addLayer(current_polygon);
             },
             click: function(feature, div, op3, evt) {
-                console.log("clicked on " + feature);
+                console.log(polygons[feature].prop.embal_percen);
+                container_point = map.mouseEventToLayerPoint(evt);
+                latlng = map.layerPointToLatLng(container_point);
+                openPopup(polygons[feature],latlng);
             }
           },
       };
@@ -98,7 +108,14 @@
       });
     }
 
-    
+    function openPopup(f,l){
+      var popupContent = '<p>Hello world!<br />This is a nice popup.</p>',
+        popup = new L.Popup();
+        popup.setLatLng(l);
+        popup.setContent(popupContent);
+        map.openPopup(popup);
+    }
+
     /**
      * init the app
      */
