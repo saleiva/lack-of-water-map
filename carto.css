@@ -215,17 +215,34 @@
     }
 }
 
-#estado_embalses_provincias[water_per_meter<=2.66756881644145e-7]{
-  polygon-pattern-file:url('/home/ubuntu/texts/1.png')}
-#estado_embalses_provincias[water_per_meter<=1.25969381171406e-7]{
-  polygon-pattern-file:url('/home/ubuntu/texts/2.png')}
-#estado_embalses_provincias[water_per_meter<=7.54906646920061e-8]{
-  polygon-pattern-file:url('/home/ubuntu/texts/3.png')}
-#estado_embalses_provincias[water_per_meter<=5.38172708993796e-8]{
-  polygon-pattern-file:url('/home/ubuntu/texts/4.png')}
-#estado_embalses_provincias[water_per_meter<=3.56702048485334e-8]{
-  polygon-pattern-file:url('/home/ubuntu/texts/5b.png')}
-#estado_embalses_provincias[water_per_meter<=2.29569269490801e-8]{
-  polygon-pattern-file:url('/home/ubuntu/texts/6.png')}
-#estado_embalses_provincias[water_per_meter<=9.69814167193683e-9]{
+#estado_embalses_provincias [embal_percen<=100] {
   polygon-pattern-file:url('/home/ubuntu/texts/7.png')}
+#estado_embalses_provincias [embal_percen<=78.47] {
+  polygon-pattern-file:url('/home/ubuntu/texts/6.png')}
+#estado_embalses_provincias [embal_percen<=74.7] {
+  polygon-pattern-file:url('/home/ubuntu/texts/5b.png')}
+#estado_embalses_provincias [embal_percen<=66.32] {
+  polygon-pattern-file:url('/home/ubuntu/texts/4.png')}
+#estado_embalses_provincias [embal_percen<=59.29] {
+  polygon-pattern-file:url('/home/ubuntu/texts/3.png')}
+#estado_embalses_provincias [embal_percen<=53.48] {
+  polygon-pattern-file:url('/home/ubuntu/texts/2.png')}
+#estado_embalses_provincias [embal_percen<=45.17] {
+  polygon-pattern-file:url('/home/ubuntu/texts/1.png')}
+
+  #estado_embalses_provincias [embal_percen<=100] {
+   polygon-fill:#0C2C84}
+#estado_embalses_provincias [embal_percen<=78.47] {
+   polygon-fill:#225EA8}
+#estado_embalses_provincias [embal_percen<=74.77] {
+   polygon-fill:#1D91C0}
+#estado_embalses_provincias [embal_percen<=66.32] {
+   polygon-fill:#41B6C4}
+#estado_embalses_provincias [embal_percen<=59.29] {
+   polygon-fill:#7FCDBB}
+#estado_embalses_provincias [embal_percen<=53.48] {
+   polygon-fill:#C7E9B4}
+#estado_embalses_provincias [embal_percen<=45.17] {
+   polygon-fill:#FFFFCC}
+
+
