@@ -7,7 +7,6 @@
   <link rel="shortcut icon" href="http://cartodb.com/favicon/favicon_32x32.ico" />
   <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
   <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
-  <link  href="css/cartodb.css" rel="stylesheet" type="text/css">
   <link  href="css/style.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
@@ -24,7 +23,7 @@
         var polygons =  {};
         // data a little bit simplified
         // if you change 0.01 to 0.1 the geometry will be more simple 
-        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,embal_percen,capacidad,embalsada,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
+        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,provincia,embal_percen,capacidad,embalsada,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
         $.getJSON(polygons_url, function(data) {
             var geojson = new L.GeoJSON();
             var features = data.features;
@@ -58,9 +57,9 @@
       var cartodb_leaflet1 ,cartodb_leaflet2;
       var current_polygon = null; //contains the current polygon being shown
 
-      map = new L.Map('map_canvas').setView(new L.LatLng(40.4166909, -3.7003454), 6);
-      map.minZoom = 6;
-      map.maxZoom = 7;
+      map = new L.Map('map_canvas',{'minZoom':6,'maxZoom':7}).setView(new L.LatLng(40.4166909, -3.7003454), 6);
+      // map.minZoom = 6;
+      // map.maxZoom = 7;
 
       // options to control events on geometries
       var waxOptions = {
@@ -109,7 +108,7 @@
     }
 
     function openPopup(f,l){
-      var popupContent = '<p>Hello world!<br />This is a nice popup.</p>',
+      var popupContent = '<p class="name">'+f.prop.provincia+'</p><hr><p class="percent">'+f.prop.embal_percen+'%</p><p class="expl">agua embalsada</p>',
         popup = new L.Popup();
         popup.setLatLng(l);
         popup.setContent(popupContent);
@@ -132,6 +131,15 @@
   <div class="wrapper">
       <div id="map_canvas"></div>
       <a class="cartodb_logo" href="http://www.cartodb.com" target="_blank">CartoDB</a>
-    <div class="wrapper">
+      <div id="legend">
+        <div>
+          <img src="img/choro_legend.png">
+          <p>% agua embalsada</p>
+        </div>
+        <div>
+          <img src="img/dot_legend.png">
+          <p>nivel / embalse</p>
+        </div>        
+      </div>
 </body>
 </html>
