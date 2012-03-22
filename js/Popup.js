@@ -1,8 +1,3 @@
-
-L.Map.mergeOptions({
-	closePopupOnClick: true
-});
-
 L.Popup = L.Class.extend({
 	includes: L.Mixin.Events,
 
@@ -90,8 +85,9 @@ L.Popup = L.Class.extend({
 		if (this.options.closeButton) {
 			closeButton = this._closeButton = L.DomUtil.create('a', prefix + '-close-button', container);
 			closeButton.href = '#close';
-			L.DomEvent.disableClickPropagation(this._closeButton);
-			L.DomEvent.addListener(closeButton, 'click', this._onCloseButtonClick, this);
+      L.DomEvent.disableClickPropagation(closeButton);
+      closeButton.onclick=L.Util.bind(this._onCloseButtonClick,this);
+      L.DomEvent.disableClickPropagation(closeButton);
 		}
 
 		var wrapper = this._wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
