@@ -85,9 +85,8 @@ L.Popup = L.Class.extend({
 		if (this.options.closeButton) {
 			closeButton = this._closeButton = L.DomUtil.create('a', prefix + '-close-button', container);
 			closeButton.href = '#close';
-      L.DomEvent.disableClickPropagation(closeButton);
-      closeButton.onclick=L.Util.bind(this._onCloseButtonClick,this);
-      L.DomEvent.disableClickPropagation(closeButton);
+      		closeButton.onclick=L.Util.bind(this._onCloseButtonClick,this);
+      		L.DomEvent.disableClickPropagation(closeButton);
 		}
 
 		var wrapper = this._wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
@@ -136,7 +135,7 @@ L.Popup = L.Class.extend({
 		width = Math.min(width, this.options.maxWidth);
 		width = Math.max(width, this.options.minWidth);
 
-		container.style.width = (width + 1) + 'px';
+		//container.style.width = (width + 1) + 'px';
 		container.style.whiteSpace = '';
 
 		container.style.height = '';
