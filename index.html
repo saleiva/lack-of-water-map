@@ -1,1 +1,146 @@
-My GitHub Page
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Using CartoDB with Leaflet</title>
+  <link rel="shortcut icon" href="http://cartodb.com/favicon/favicon_32x32.ico" />
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
+  <link  href="css/style.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+  <script type="text/javascript" src="js/wax.leaflet.min.js"></script>
+  <script type="text/javascript" src="js/cartodb-leaflet.js"></script>
+  <script type="text/javascript">
+
+    var map;
+
+   /**
+    * this function precache all the polygons to render them on hover
+    */
+    function create_polygons(ready) {
+        var polygons =  {};
+        // data a little bit simplified
+        // if you change 0.01 to 0.1 the geometry will be more simple 
+        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,provincia,embal_percen,capacidad,embalsada,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
+        $.getJSON(polygons_url, function(data) {
+            var geojson = new L.GeoJSON();
+            var features = data.features;
+            for (var i = 0, len = features.length; i < len; ++i) {
+              var pol = new Object();
+              var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+              // polygon options
+              // see available http://leaflet.cloudmade.com/reference.html#path
+              geo.setStyle({
+                weight: 4,
+                color: '#FFFFFF',
+                opacity: 1,
+                fillColor: '#FFFFFF',
+                fillOpacity: 0.1
+              });
+              pol.geo = geo;
+              pol.prop = features[i].properties;
+              polygons[features[i].properties.cartodb_id] = pol;
+
+            }
+            ready(polygons);
+        });
+        
+    }
+
+
+    /**
+     * creates the map
+     */
+    function init_map(polygons) {
+      var cartodb_leaflet1 ,cartodb_leaflet2;
+      var current_polygon = null; //contains the current polygon being shown
+
+      map = new L.Map('map_canvas',{'minZoom':6,'maxZoom':7}).setView(new L.LatLng(40.4166909, -3.7003454), 6);
+      // map.minZoom = 6;
+      // map.maxZoom = 7;
+
+      // options to control events on geometries
+      var waxOptions = {
+          callbacks: {
+            out: function(){
+                $('body').css({cursor:'default'});
+                if(current_polygon) {
+                  map.removeLayer(current_polygon);
+                  current_polygon = null;
+                }
+            },
+            over: function(feature, div, opt3, evt){
+                $('body').css({cursor:'pointer'});
+                current_polygon = polygons[feature].geo;
+                map.addLayer(current_polygon);
+            },
+            click: function(feature, div, op3, evt) {
+                console.log(polygons[feature].prop.embal_percen);
+                container_point = map.mouseEventToLayerPoint(evt);
+                latlng = map.layerPointToLatLng(container_point);
+                openPopup(polygons[feature],latlng);
+            }
+          },
+      };
+      
+      cartodb_leaflet1 = new L.CartoDBLayer({
+        map_canvas: 'map_canvas',
+        map: map,
+        user_name:"viz2",
+        table_name: 'estado_embalses_provincias',
+        query: "SELECT * FROM {{table_name}}",
+        auto_bound: false,
+        debug: false,
+        waxOptions: waxOptions
+      });
+
+      cartodb_leaflet2 = new L.CartoDBLayer({
+        map_canvas: 'map_canvas',
+        map: map,
+        user_name:"viz2",
+        table_name: 'embalses_saleiva_dots',
+        query: "SELECT * FROM {{table_name}}",
+        auto_bound: false,
+        debug: false
+      });
+    }
+
+    function openPopup(f,l){
+      var popupContent = '<p class="name">'+f.prop.provincia+'</p><hr><p class="percent">'+f.prop.embal_percen+'%</p><p class="expl">agua embalsada</p>',
+        popup = new L.Popup();
+        popup.setLatLng(l);
+        popup.setContent(popupContent);
+        map.openPopup(popup);
+    }
+
+    /**
+     * init the app
+     */
+    function initialize() {
+      // ask for the data first, when it is ready the map can be initializated
+      create_polygons(function(vector_polygons) {
+          init_map(vector_polygons);
+      });
+    }
+
+  </script>
+</head>
+<body onload="initialize()">
+  <div class="wrapper">
+      <div id="map_canvas"></div>
+      <a class="cartodb_logo" href="http://www.cartodb.com" target="_blank">CartoDB</a>
+      <div id="legend">
+        <div>
+          <img src="img/choro_legend.png">
+          <p>% agua embalsada</p>
+        </div>
+        <div>
+          <img src="img/dot_legend.png">
+          <p>nivel / embalse</p>
+        </div>        
+      </div>
+</body>
+</html>
