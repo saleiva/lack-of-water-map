@@ -101,7 +101,7 @@
     }
 
     function openPopup(f,l){
-      var wording = ((f.prop.emb_diff.toString()).substring(0,1) == '-') ? '<p class="negative">'+f.prop.emb_diff+'% menos</p>' : '<p class="positive">'+f.prop.emb_diff+'% mas</p>';
+      var wording = ((f.prop.emb_diff.toString()).substring(0,1) == '-') ? '<p class="negative">'+(f.prop.emb_diff.toString()).substring(0,5)+'% menos</p>' : '<p class="positive">'+(f.prop.emb_diff.toString()).substring(0,5)+'% mas</p>';
       var popupContent = '<p class="name">'+f.prop.provincia+'</p><hr><p class="percent">'+f.prop.embal_percen+'%</p><p class="expl">agua embalsada</p><p>'+wording+'<p class="expl">que en 2011</p>';
         popup = new L.Popup();
         popup.setLatLng(l);
