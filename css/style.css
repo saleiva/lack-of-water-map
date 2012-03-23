@@ -56,6 +56,9 @@ div.leaflet-popup div.leaflet-popup-content p.name {margin:0 0 5px 0; font-weigh
 div.leaflet-popup div.leaflet-popup-content hr {width:100%; height: 1px; background-color: #ccc; border: none;}
 div.leaflet-popup div.leaflet-popup-content p.percent {font-size: 31px; font-weight:bold; color:#485564; margin: 0; line-height: 31px;}
 div.leaflet-popup div.leaflet-popup-content p.expl {font-size: 12px; font-weight:normal; margin: 0; line-height: 15px;}
+div.leaflet-popup div.leaflet-popup-content p.negative {font-size: 12px; font-weight:normal; margin: 10px 0 0 0; line-height: 15px; color:#FF6600;}
+div.leaflet-popup div.leaflet-popup-content p.positive {font-size: 12px; font-weight:normal; margin: 10px 0 0 0; line-height: 15px; color:#009933;}
+
 div.leaflet-popup div.leaflet-popup-tip {display: none;}
 div.leaflet-popup div.leaflet-popup-tip-container {width:150px; height:20px; margin:0; background:url('../img/bkg_iw2.png') no-repeat left bottom; padding:0;}
 
