@@ -19,7 +19,7 @@
 
     function create_polygons(ready) {
         var polygons =  {};
-        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,provincia,embal_percen,capacidad,embalsada,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
+        var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,provincia,embal_percen,capacidad,embalsada,emb_diff,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
         $.getJSON(polygons_url, function(data) {
             var geojson = new L.GeoJSON();
             var features = data.features;
@@ -100,7 +100,8 @@
     }
 
     function openPopup(f,l){
-      var popupContent = '<p class="name">'+f.prop.provincia+'</p><hr><p class="percent">'+f.prop.embal_percen+'%</p><p class="expl">agua embalsada</p>',
+      var wording = ((f.prop.emb_diff.toString()).substring(0,1) == '-') ? '<p class="negative">'+f.prop.emb_diff+'% menos</p>' : '<p class="positive">'+f.prop.emb_diff+'% mas</p>';
+      var popupContent = '<p class="name">'+f.prop.provincia+'</p><hr><p class="percent">'+f.prop.embal_percen+'%</p><p class="expl">agua embalsada</p><p>'+wording+'<p class="expl">que en 2011</p>';
         popup = new L.Popup();
         popup.setLatLng(l);
         popup.setContent(popupContent);
