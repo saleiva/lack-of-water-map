@@ -41,7 +41,11 @@ div#legend div p{
 	margin: 0;
 }
 
+div#legend div p.percent {font-size: 31px; font-weight:bold; color:#485564; margin: 0 0 0 -2px; line-height: 31px;}
+div#legend div p.typo{margin:0 0 2px 0; font-weight:bold; text-transform: uppercase;}
+div#legend div p.expl{font-size: 12px; font-weight:normal; margin: 0; line-height: 15px;}
 /*INFOWINDOW*/
+.leaflet-container .leaflet-control-attribution {display:none;}
 div.leaflet-popup {position:absolute; display:block; width:157px; padding:0; border-radius: 0;}
 div.leaflet-popup a.leaflet-popup-close-button {position:absolute; right:0px; top:0px; width:22px; height:15px; padding:4px 0 3px 0; text-align:center; font:normal 11px Arial; color:#666666; text-decoration:none; line-height:15px; background:url('../img/closebtn.png'); text-indent:0; overflow:visible}
 div.leaflet-popup a.leaflet-popup-close-button:hover {color:#333333}
@@ -56,6 +60,8 @@ div.leaflet-popup div.leaflet-popup-tip {display: none;}
 div.leaflet-popup div.leaflet-popup-tip-container {width:150px; height:20px; margin:0; background:url('../img/bkg_iw2.png') no-repeat left bottom; padding:0;}
 
 a.cartodb_logo {position:absolute; bottom:8px; left:8px; display:block; width:69px; height:27px; background:url('http://cartodb.s3.amazonaws.com/embed/embed_sprite.png') no-repeat -61px 0; text-indent:-9999px; line-height:0; font-size:0;}
+
+div#citation p{font-family: Arial, sans-serif; color:#CCCCCC; font-size:12px; margin: 3px 0 0 0; float:right;}
 
 /*LEAFLET HACKS*/
 .leaflet-control-zoom{
