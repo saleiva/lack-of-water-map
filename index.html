@@ -17,13 +17,8 @@
 
     var map;
 
-   /**
-    * this function precache all the polygons to render them on hover
-    */
     function create_polygons(ready) {
         var polygons =  {};
-        // data a little bit simplified
-        // if you change 0.01 to 0.1 the geometry will be more simple 
         var polygons_url = 'https://viz2.cartodb.com/api/v2/sql?q=select cartodb_id,provincia,embal_percen,capacidad,embalsada,ST_Simplify(the_geom, 0.01) as the_geom from estado_embalses_provincias&format=geojson';
         $.getJSON(polygons_url, function(data) {
             var geojson = new L.GeoJSON();
@@ -31,8 +26,6 @@
             for (var i = 0, len = features.length; i < len; ++i) {
               var pol = new Object();
               var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
-              // polygon options
-              // see available http://leaflet.cloudmade.com/reference.html#path
               geo.setStyle({
                 weight: 4,
                 color: '#FFFFFF',
@@ -56,11 +49,9 @@
      */
     function init_map(polygons) {
       var cartodb_leaflet1 ,cartodb_leaflet2;
-      var current_polygon = null; //contains the current polygon being shown
+      var current_polygon = null; 
 
       map = new L.Map('map_canvas',{'minZoom':6,'maxZoom':7}).setView(new L.LatLng(40.4166909, -3.7003454), 6);
-      // map.minZoom = 6;
-      // map.maxZoom = 7;
 
       // options to control events on geometries
       var waxOptions = {
@@ -134,6 +125,11 @@
       <a class="cartodb_logo" href="http://www.cartodb.com" target="_blank">CartoDB</a>
       <div id="legend">
         <div>
+          <p class="typo">CAPACIDAD AL</p>
+          <p class="percent">62.11%</p>
+          <p class="expl">81.24% EN 2011</p>
+        </div>
+        <div>
           <img src="img/choro_legend.png">
           <p>% agua embalsada</p>
         </div>
@@ -142,5 +138,6 @@
           <p>nivel / embalse</p>
         </div>        
       </div>
+      <div id="citation"><p>Fuentes: managrama.es, embalses.net, gadm.org | Mapa: CartoDB</p></div>
 </body>
 </html>
