@@ -229,6 +229,8 @@
   polygon-pattern-file:url('/home/ubuntu/texts/2.png')}
 #estado_embalses_provincias [embal_percen<=45.17] {
   polygon-pattern-file:url('/home/ubuntu/texts/1.png')}
+  #estado_embalses_provincias [embal_percen=0] {
+  polygon-pattern-file:url('/home/ubuntu/texts/0.png')}
 
 
 ///////////////////DIFS
